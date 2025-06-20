@@ -18,9 +18,10 @@ A comprehensive Customer Relationship Management (CRM) system designed specifica
 - **Responsive Design**: Mobile-friendly interface for all devices
 
 ### Tiffin Plans Supported
-- **Gold Plan**: $25/month, 6 meals/week, premium features (4 rotis, 8oz sabji, 6oz dal/kadhi, weekly dessert)
-- **Silver Plan**: $18/month, 5 meals/week, standard features (3 rotis, 6oz sabji, 4oz dal/kadhi, monthly dessert)
-- **Trial Plans**: 1-day and 6-day trial options for new customers
+- **Gold Plan**: $285 CAD/month, 6 days/week, 24 tiffins (8 rotis, 12oz sabji, 12oz dal/kadhi, weekly dessert, includes paan)
+- **Silver Plan**: $240 CAD/month, 6 days/week, 24 tiffins (5 rotis, 8oz sabji, 8oz dal/kadhi, weekly dessert)
+- **Student Plan**: $220 CAD/month, Discounted Silver Plan for students (requires student ID verification)
+- **Trial Plans**: 6-day trial ($90) and 1-day trial ($15) options for new customers
 
 ## 🏗️ Architecture
 
@@ -131,6 +132,7 @@ npm run dev
    - Monitor daily revenue and order volumes
    - Track delivery performance metrics
    - Analyze customer growth and retention
+   - View plan-wise revenue breakdown (Gold: $285, Silver: $240, Student: $220 CAD)
 
 ## 🛠️ API Endpoints
 
@@ -159,7 +161,7 @@ npm run dev
 - `PUT /api/deliveries/{id}/status` - Update delivery status
 
 ### Plans & Subscriptions
-- `GET /api/plans` - List tiffin plans
+- `GET /api/plans` - List tiffin plans (Gold: $285, Silver: $240, Student: $220 CAD)
 - `GET /api/subscriptions` - List subscriptions
 - `POST /api/subscriptions` - Create subscription
 
