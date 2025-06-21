@@ -44,6 +44,7 @@ A comprehensive Customer Relationship Management (CRM) system designed specifica
 ### Prerequisites
 - Python 3.11+
 - Node.js 20+
+- PostgreSQL 12+ (recommended for production)
 - pnpm (recommended) or npm
 
 ### Backend Setup
@@ -64,12 +65,33 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Initialize the database:
+4. Configure environment variables:
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit .env with your database credentials
+nano .env
+```
+
+5. Set up PostgreSQL database:
+```bash
+# Create database and user (see DATABASE_MIGRATION.md for details)
+sudo -u postgres createdb tiffin_crm
+sudo -u postgres createuser tiffin_user
+```
+
+6. Initialize the database:
+```bash
+python scripts/init_db.py
+```
+
+7. Start the backend server:
 ```bash
 python src/main.py
 ```
 
-5. The backend will be available at `http://localhost:5001`
+The backend will be available at `http://localhost:5001`
 
 ### Frontend Setup
 
@@ -97,13 +119,23 @@ npm run dev
 ## 🔧 Configuration
 
 ### Backend Configuration
-- Database URL can be configured via environment variables
-- JWT secret key should be set for production
-- CORS is configured to allow frontend access
+The backend uses environment variables for configuration. Key settings include:
+
+- **Database**: PostgreSQL connection string
+- **Security**: JWT secret keys and session configuration  
+- **CORS**: Allowed origins for frontend access
+- **Email**: SMTP settings for notifications (optional)
+- **Logging**: Log level and file configuration
 
 ### Frontend Configuration
 - API base URL is configured in `src/lib/api.js`
 - Update the backend URL if deploying to different domains
+- Environment-specific builds supported
+
+### Environment Files
+- `.env.example` - Template with all available options
+- `.env` - Your local configuration (not tracked in git)
+- Production deployments should use environment variables
 
 ## 📱 Usage
 
@@ -180,8 +212,10 @@ The system includes a sophisticated route optimization engine:
 ### Production Deployment
 
 1. **Backend Deployment**:
-   - Configure production database (PostgreSQL recommended)
-   - Set environment variables for security
+   - Set up PostgreSQL database on your cloud provider
+   - Configure environment variables for production
+   - Set `FLASK_ENV=production` 
+   - Use strong secret keys for JWT and Flask
    - Deploy to cloud platform (AWS, Heroku, DigitalOcean)
 
 2. **Frontend Deployment**:
@@ -189,13 +223,19 @@ The system includes a sophisticated route optimization engine:
    - Deploy to static hosting (Netlify, Vercel, AWS S3)
    - Update API URLs for production backend
 
+3. **Database Migration**:
+   - See `backend/DATABASE_MIGRATION.md` for detailed PostgreSQL setup
+   - Use Flask-Migrate for schema updates: `flask db upgrade`
+
 ### Environment Variables
 
 Backend `.env` file:
 ```
 DATABASE_URL=postgresql://user:password@localhost/tiffin_crm
-JWT_SECRET_KEY=your-secret-key
 FLASK_ENV=production
+SECRET_KEY=your-super-secret-key
+JWT_SECRET_KEY=your-jwt-secret-key
+CORS_ORIGINS=https://yourdomain.com
 ```
 
 ## 📄 License
